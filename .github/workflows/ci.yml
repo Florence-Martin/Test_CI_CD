@@ -51,12 +51,14 @@ jobs:
 
       # // connexion au VPS
       - name: Deploy to VPS
-        uses: appleboy/ssh-action@master
+        uses: appleboy/ssh-action@v0.1.8
         with:
           host: ${{ secrets.HOST }}
           port: ${{ secrets.SSH_PORT }}
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.SSH_KEY }}
           script: |
-            docker-compose pull
-            docker-compose up -d
+            cd ~/myapp || mkdir ~/myapp && cd ~/myapp
+            git pull origin main
+            sudo docker-compose down
+            sudo docker-compose up -d --build
