@@ -1,0 +1,50 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:13
+        env:
+          POSTGRES_USER: your-username
+          POSTGRES_PASSWORD: your-password
+          POSTGRES_DB: mydb
+        ports:
+          - 5432:5432
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: "14"
+
+      - name: Install dependencies and build front
+        working-directory: ./front
+        run: |
+          npm install
+          npm run build
+
+      - name: Install dependencies and build api
+        working-directory: ./api
+        run: |
+          npm install
+          npm run build
+
+      - name: Run tests for api
+        working-directory: ./api
+        run: npm test
+
+      - name: Build and push Docker images
+        run: |
+          docker-compose build
+          docker-compose push

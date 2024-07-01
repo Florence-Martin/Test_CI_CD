@@ -1,22 +1,21 @@
-# Utilisation de l'image Node.js LTS comme base
-FROM node:20-alpine
+# Utiliser une image de base officielle Node.js
+FROM node:14
 
-# Création du répertoire de travail
+# Définir le répertoire de travail dans le conteneur
 WORKDIR /usr/src/app
 
-# Copie des fichiers nécessaires
+# Copier les fichiers de package et installer les dépendances
 COPY package*.json ./
-COPY next.config.mjs ./
-COPY pages ./pages
+RUN npm install
 
-# Installation des dépendances
-RUN npm install --production
+# Copier le reste des fichiers de l'application
+COPY . .
 
-# Construction de l'api
+# Construire l'application TypeScript
 RUN npm run build
 
-# Exposition du port nécessaire pour l'API
+# Exposer le port de l'application
 EXPOSE 3001
 
-# Commande pour démarrer l'API
-CMD ["npm", "run", "start"]
+# Commande pour démarrer l'application
+CMD ["npm", "start"]

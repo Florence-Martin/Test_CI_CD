@@ -1,7 +1,7 @@
-# Utilisation de l'image Node.js LTS comme base
-FROM node:20-alpine
+# Utiliser une image de base officielle Node.js
+FROM node:18
 
-# Création du répertoire de travail
+# Définir le répertoire de travail dans le conteneur
 WORKDIR /usr/src/app
 
 # Copie des fichiers nécessaires
@@ -12,11 +12,15 @@ COPY pages ./pages
 # Installation des dépendances
 RUN npm install --production
 
-# Construction de l'application frontend
+# Copier le reste des fichiers de l'application
+COPY . .
+
+# Construire l'application Next.js
 RUN npm run build
 
-# Exposition du port nécessaire pour le frontend
+
+# Exposer le port de l'application
 EXPOSE 3000
 
-# Commande pour démarrer le serveur frontend
-CMD ["npm", "run", "start"]
+# Commande pour démarrer l'application
+CMD ["npm", "start"]
