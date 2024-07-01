@@ -48,3 +48,15 @@ jobs:
         run: |
           docker-compose build
           docker-compose push
+
+      # // connexion au VPS
+      - name: Deploy to VPS
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          port: ${{ secrets.SSH_PORT }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.SSH_KEY }}
+          script: |
+            docker-compose pull
+            docker-compose up -d
