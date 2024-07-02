@@ -37,7 +37,7 @@ jobs:
       - name: Install dependencies and build api
         working-directory: ./api
         run: |
-          npm install
+          npm install --legacy-peer-deps
           npm run build
 
       - name: Run linter for front
