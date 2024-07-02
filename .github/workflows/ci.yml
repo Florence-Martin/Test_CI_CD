@@ -13,9 +13,9 @@ jobs:
       postgres:
         image: postgres:13
         env:
-          POSTGRES_USER: your-username
-          POSTGRES_PASSWORD: your-password
-          POSTGRES_DB: mydb
+          POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
+          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+          POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
         ports:
           - 5432:5432
 
@@ -34,7 +34,7 @@ jobs:
           npm install
           npm run build
 
-      - name: Install dependencies and build api
+      - name: Clean install dependencies for api
         working-directory: ./api
         run: |
           rm -rf node_modules
@@ -71,6 +71,10 @@ jobs:
           done
 
       - name: Run tests for database
+        env:
+          POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
+          POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
+          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
         run: |
           pytest tests/test_db.py
 
