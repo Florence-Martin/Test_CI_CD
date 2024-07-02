@@ -45,8 +45,8 @@ jobs:
 
       - name: Build and push Docker images
         run: |
-          docker-compose build
-          docker-compose push
+          docker-compose -f docker-compose.yml build
+          docker-compose -f docker-compose.yml push
 
       - name: Deploy to VPS
         uses: appleboy/ssh-action@v0.1.8
@@ -56,7 +56,37 @@ jobs:
           username: ${{ secrets.USERNAME }}
           password: ${{ secrets.PASSWORD }}
           script: |
-            mkdir -p ~/myapp && cd ~/myapp
+            if ! command -v docker-compose &> /dev/null
+            then
+              sudo apt-get update
+              sudo apt-get install -y curl jq
+              sudo curl -L "https://github.com/docker/compose/releases/download/$(curl -s https://api.github.com/repos/docker/compose/releases/latest | jq -r .tag_name)/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+              sudo chmod +x /usr/local/bin/docker-compose
+            fi
+            mkdir -p ~/TEST_CI_CD && cd ~/TEST_CI_CD
+            if [ ! -d .git ]; then
+              git clone https://github.com/Florence-Martin/Test_CI_CD.git .
+            fi
             git pull origin main
             sudo docker-compose down
             sudo docker-compose up -d --build
+
+      - name: Check running containers
+        uses: appleboy/ssh-action@v0.1.8
+        with:
+          host: ${{ secrets.HOST }}
+          port: ${{ secrets.SSH_PORT }}
+          username: ${{ secrets.USERNAME }}
+          password: ${{ secrets.PASSWORD }}
+          script: |
+            sudo docker ps
+
+      - name: Check logs for API container
+        uses: appleboy/ssh-action@v0.1.8
+        with:
+          host: ${{ secrets.HOST }}
+          port: ${{ secrets.SSH_PORT }}
+          username: ${{ secrets.USERNAME }}
+          password: ${{ secrets.PASSWORD }}
+          script: |
+            sudo docker logs $(sudo docker ps -q --filter "name=api")

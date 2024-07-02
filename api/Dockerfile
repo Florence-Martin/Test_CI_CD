@@ -11,8 +11,8 @@ RUN npm install
 # Copier le reste des fichiers de l'application
 COPY . .
 
-# Construire l'application TypeScript
-RUN npm install -g typescript
+# Installer TypeScript et ts-node globalement
+RUN npm install -g typescript ts-node
 
 # Construire l'application TypeScript
 RUN npm run build
