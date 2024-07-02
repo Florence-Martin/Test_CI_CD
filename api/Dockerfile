@@ -12,6 +12,9 @@ RUN npm install
 COPY . .
 
 # Construire l'application TypeScript
+RUN npm install -g typescript
+
+# Construire l'application TypeScript
 RUN npm run build
 
 # Exposer le port de l'application
