@@ -56,21 +56,7 @@ jobs:
           username: ${{ secrets.USERNAME }}
           password: ${{ secrets.PASSWORD }}
           script: |
-            # Installer Docker Compose s'il n'est pas déjà installé
-            if ! command -v docker-compose &> /dev/null
-            then
-              sudo apt-get update
-              sudo apt-get install -y curl jq
-              sudo curl -L "https://github.com/docker/compose/releases/download/$(curl -s https://api.github.com/repos/docker/compose/releases/latest | jq -r .tag_name)/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-              sudo chmod +x /usr/local/bin/docker-compose
-            fi
-
-            # Cloner le dépôt si le répertoire n'existe pas
-            if [ ! -d "~/myapp/.git" ]; then
-              git clone https://github.com/Florence-Martin/Test_CI_CD.git ~/myapp
-            fi
-
-            cd ~/myapp
+            mkdir -p ~/myapp && cd ~/myapp
             git pull origin main
             sudo docker-compose down
             sudo docker-compose up -d --build
