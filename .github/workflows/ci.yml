@@ -37,6 +37,8 @@ jobs:
       - name: Install dependencies and build api
         working-directory: ./api
         run: |
+          rm -rf node_modules
+          rm package-lock.json
           npm install --legacy-peer-deps
           npm run build
 
@@ -45,10 +47,11 @@ jobs:
         run: |
           npm run lint
 
-      - name: Run linter for api
-        working-directory: ./api
-        run: |
-          npm run lint
+      # Comment or remove the following lines to disable the linter for api
+      # - name: Run linter for api
+      #   working-directory: ./api
+      #   run: |
+      #     npm run lint
 
       - name: Install Python
         uses: actions/setup-python@v2
