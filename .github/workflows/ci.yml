@@ -67,7 +67,7 @@ jobs:
 
             # Cloner le dépôt si le répertoire n'existe pas
             if [ ! -d "~/myapp/.git" ]; then
-              git clone https://github.com/your-repo/myapp.git ~/myapp
+              git clone https://github.com/Florence-Martin/Test_CI_CD.git ~/myapp
             fi
 
             cd ~/myapp
