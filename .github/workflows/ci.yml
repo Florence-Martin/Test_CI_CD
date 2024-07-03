@@ -56,16 +56,12 @@ jobs:
           username: ${{ secrets.USERNAME }}
           password: ${{ secrets.PASSWORD }}
           script: |
-            mkdir -p ~/api && cd ~/api
+            mkdir -p ~/api && cd ~/api    
             if [ ! -d .git ]; then
               git clone https://github.com/Florence-Martin/Test_CI_CD.git .
             fi
-            git pull origin main
-            # Ajout de la gestion des conflits de nom de conteneur
-            CONTAINER_NAME="test_ci_cd-db-1"
-            if [ $(docker ps -a -q -f name=$CONTAINER_NAME) ]; then
-              echo "Un conteneur avec le même nom existe déjà, suppression..."
-              docker rm -f $CONTAINER_NAME
-            fi
-            sudo docker-compose -f ./docker-compose.yml down
+            git pull origin main          
+            CONTAINER_NAME="test_ci_cd-db-$(date +%s)"
+            export CONTAINER_NAME
+            sudo docker-compose -f ./docker-compose.yml down 
             sudo docker-compose -f ./docker-compose.yml up -d --build
