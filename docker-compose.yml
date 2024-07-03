@@ -3,7 +3,7 @@ version: "3.8"
 services:
   db:
     image: postgres:13
-    container_name: "${CONTAINER_NAME:-default_db_name}"
+    container_name: "${CONTAINER_NAME:-bdd}"
     environment:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}

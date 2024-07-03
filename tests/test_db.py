@@ -1,5 +1,7 @@
+# permet de se connecter à une base de données PostgreSQL et d'exécuter des commandes SQL
 import psycopg2
 import os
+# framework de test pour Python
 import pytest
 
 @pytest.fixture
@@ -8,7 +10,7 @@ def db_connection():
         dbname=os.getenv('POSTGRES_DB'),
         user=os.getenv('POSTGRES_USER'),
         password=os.getenv('POSTGRES_PASSWORD'),
-        host='localhost',
+        host=('DB_HOST'),
         port='5432'
     )
     yield conn
