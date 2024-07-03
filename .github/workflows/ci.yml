@@ -48,6 +48,42 @@ jobs:
           docker-compose build
           docker-compose push
 
+  test_database:
+    needs: build
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:latest
+        env:
+          POSTGRES_DB: mydb
+          POSTGRES_USER: user
+          POSTGRES_PASSWORD: password
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Build the Docker test image
+        run: docker build -t myapp-test -f test/Dockerfile .
+
+      - name: Run the test
+        run: docker run --network host myapp-test
+        env:
+          POSTGRES_DB: mydb
+          POSTGRES_USER: user
+          POSTGRES_PASSWORD: password
+          POSTGRES_HOST: localhost
+
+  deploy:
+    needs: test_database
+    runs-on: ubuntu-latest
+    steps:
       - name: Deploy to VPS
         uses: appleboy/ssh-action@v0.1.8
         with:
