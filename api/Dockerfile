@@ -1,5 +1,5 @@
 # Utiliser une image de base officielle Node.js
-FROM node:14
+FROM node:20-alpine
 
 # Définir le répertoire de travail dans le conteneur
 WORKDIR /usr/src/app
@@ -12,7 +12,7 @@ RUN npm install
 COPY . .
 
 # Construire l'application TypeScript
-RUN npm install -g typescript
+RUN npm install typescript
 
 # Construire l'application TypeScript
 RUN npm run build
@@ -21,4 +21,4 @@ RUN npm run build
 EXPOSE 3001
 
 # Commande pour démarrer l'application
-CMD ["npm", "start"]
+CMD ["npm","run","start"]

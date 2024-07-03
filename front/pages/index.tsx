@@ -16,7 +16,7 @@ const Home = () => {
 
   const fetchUsers = async () => {
     try {
-      const response = await fetch("http://localhost:3001/api/users");
+      const response = await fetch("http://localhost:3001");
       if (!response.ok) {
         throw new Error("Failed to fetch users");
       }
