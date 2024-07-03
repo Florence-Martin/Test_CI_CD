@@ -61,5 +61,5 @@ jobs:
               git clone https://github.com/Florence-Martin/Test_CI_CD.git .
             fi
             git pull origin main
-            sudo docker-compose -f ../docker-compose.yml down
-            sudo docker-compose -f ../docker-compose.yml up -d --build
+            sudo docker-compose -f ./docker-compose.yml down
+            sudo docker-compose -f ./docker-compose.yml up -d --build
