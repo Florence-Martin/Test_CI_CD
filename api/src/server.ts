@@ -1,25 +1,23 @@
-import "dotenv/config"; // Charge toutes les variables d'environnement de `.env` automatiquement
+import "dotenv/config";
 import "reflect-metadata";
-import { createConnection } from "typeorm";
-import config from "./ormconfig"; // Assurez-vous que le chemin est correct
 import express from "express";
-import { User } from "./src/entity/User"; // Vérifiez le chemin après compilation
-//import Cors from "Cors";
+import { AppDataSource } from "./ormconfig"; // Assurez-vous que le chemin est correct
+import { User } from "./entity/User"; // Vérifiez le chemin après compilation
+import cors from "cors";
 
 const app = express();
-// app.use(Cors());
+app.use(cors());
 const port = 3001;
 
-createConnection(config)
-  .then(async (connection) => {
+AppDataSource.initialize()
+  .then(async () => {
     app.get("/", async (req, res) => {
       try {
-        const userRepository = connection.getRepository(User);
+        const userRepository = AppDataSource.getRepository(User);
         const users = await userRepository.find();
         res.json(users);
       } catch (error) {
         if (error instanceof Error) {
-          // Vérification du type de l'erreur
           res.status(500).json({ error: error.message });
         } else {
           res
@@ -35,7 +33,6 @@ createConnection(config)
   })
   .catch((error) => {
     if (error instanceof Error) {
-      // Vérification du type de l'erreur
       console.error(
         "Erreur lors de la connexion à la base de données : ",
         error.message
@@ -45,11 +42,10 @@ createConnection(config)
         "Une erreur inconnue s'est produite lors de la connexion à la base de données."
       );
     }
-    process.exit(1); // Arrêter le processus en cas d'erreur de connexion
+    process.exit(1);
   });
 
 // Gestion globale des promesses non traitées
 process.on("unhandledRejection", (reason, promise) => {
   console.error("Unhandled Rejection at:", promise, "reason:", reason);
-  // Vous pouvez ajouter une logique pour notifier l'équipe, logger, etc.
 });

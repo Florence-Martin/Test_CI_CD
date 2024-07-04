@@ -1,17 +1,17 @@
-import { ConnectionOptions } from "typeorm";
+import { DataSourceOptions, DataSource } from "typeorm";
 
-const config: ConnectionOptions = {
+const config: DataSourceOptions = {
   type: "postgres",
-  host: process.env.DB_HOST || "db", // Assurez-vous que cette valeur par défaut correspond au service DB dans Docker Compose
+  host: process.env.DB_HOST || "db",
   port: parseInt(process.env.DB_PORT || "5432"),
   username: process.env.POSTGRES_USER,
   password: process.env.POSTGRES_PASSWORD,
   database: process.env.POSTGRES_DB,
-  synchronize: true, // À utiliser avec prudence, surtout en production
+  synchronize: true,
   logging: false,
   entities: ["dist/entity/**/*.js"],
   migrations: ["dist/migration/**/*.js"],
   subscribers: ["dist/subscriber/**/*.js"],
 };
 
-export default config;
+export const AppDataSource = new DataSource(config);
