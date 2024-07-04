@@ -2,8 +2,8 @@ import { useEffect, useState } from "react";
 
 interface User {
   id: number;
-  firstname: string;
-  lastname: string;
+  firstName: string;
+  lastName: string;
   age: number;
 }
 
@@ -21,6 +21,7 @@ const Home = () => {
         throw new Error("Failed to fetch users");
       }
       const data = await response.json();
+      console.log(data);
       setUsers(data);
     } catch (error) {
       console.error("Error fetching users:", error);
@@ -33,7 +34,7 @@ const Home = () => {
       <ul>
         {users.map((user) => (
           <li key={user.id}>
-            {user.firstname} - {user.lastname} - {user.age}
+            {user.firstName} - {user.lastName} - {user.age}
           </li>
         ))}
       </ul>
