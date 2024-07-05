@@ -21,7 +21,6 @@ const Home = () => {
         throw new Error("Failed to fetch users");
       }
       const data = await response.json();
-      console.log(data);
       setUsers(data);
     } catch (error) {
       console.error("Error fetching users:", error);
@@ -34,7 +33,7 @@ const Home = () => {
       <ul>
         {users.map((user) => (
           <li key={user.id}>
-            {user.firstName} - {user.lastName} - {user.age}
+            {user.firstName} {user.lastName} - {user.age}
           </li>
         ))}
       </ul>

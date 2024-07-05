@@ -8,7 +8,8 @@ const config: DataSourceOptions = {
   password: process.env.POSTGRES_PASSWORD,
   database: process.env.POSTGRES_DB,
   synchronize: true,
-  logging: false,
+  logging: true,
+  logger: "advanced-console", // Utilise une console avancée pour les logs
   entities: ["dist/entity/**/*.js"],
   migrations: ["dist/migration/**/*.js"],
   subscribers: ["dist/subscriber/**/*.js"],
