@@ -11,3 +11,4 @@ INSERT INTO "user" (firstName, lastName, age) VALUES
     ('John', 'Doe', 30),
     ('Jane', 'Doe', 25),
     ('Alice', 'Smith', 35);
+    ('Fred', 'Smith', 40);
