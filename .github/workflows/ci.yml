@@ -56,16 +56,12 @@ jobs:
           username: ${{ secrets.USERNAME }}
           password: ${{ secrets.PASSWORD }}
           script: |
-            mkdir -p ~/myapp && cd ~/myapp    
+            mkdir -p ~/api && cd ~/api    
             if [ ! -d .git ]; then
               git clone https://github.com/Florence-Martin/Test_CI_CD.git .
             fi
             git pull origin main          
-            # Copie des fichiers construits
-            mkdir -p ~/app/front && mkdir -p ~/app/api
-            cp -r ./front/build/* ~/app/front/
-            cp -r ./api/dist/* ~/app/api/
-
-            # Mise à jour et redémarrage des conteneurs Docker
-            sudo docker-compose down
-            sudo docker-compose up -d --build
+            CONTAINER_NAME="test_ci_cd-db-$(date +%s)"
+            export CONTAINER_NAME
+            sudo docker-compose -f ./docker-compose.yml down 
+            sudo docker-compose -f ./docker-compose.yml up -d --build
