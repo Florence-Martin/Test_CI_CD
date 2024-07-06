@@ -8,17 +8,15 @@ WORKDIR /usr/src/app
 COPY package*.json ./
 RUN npm install
 
-# Construire l'application TypeScript
-RUN npm install typescript
+# Copier les fichiers source de l'application
+COPY . .
 
-# Assurez-vous que `tsc` a les permissions d'exécution correctes
-RUN chmod +x node_modules/.bin/tsc
-
-# Construire l'application TypeScript
-RUN npm run build
+# Installer TypeScript globalement et compiler le projet
+RUN npm install -g typescript
+RUN tsc
 
 # Exposer le port de l'application
 EXPOSE 3001
 
 # Commande pour démarrer l'application
-CMD ["npm","run","start"]
+CMD ["node", "dist/server.js"]

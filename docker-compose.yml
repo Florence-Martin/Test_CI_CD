@@ -34,7 +34,7 @@ services:
     build:
       context: ./front
     ports:
-      - "9015:3000"
+      - "3000:3000"
     depends_on:
       - api
     volumes:

@@ -13,29 +13,29 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # - name: Set up Node.js
-      #   uses: actions/setup-node@v4
-      #   with:
-      #     node-version: "20"
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
 
-      # - name: Install dependencies and build front
-      #   working-directory: ./front
-      #   run: |
-      #     npm install
-      #     npm run build
+      - name: Install dependencies and build front
+        working-directory: ./front
+        run: |
+          npm install
+          npm run build
 
-      # - name: Clean install dependencies for api
-      #   working-directory: ./api
-      #   run: |
-      #     rm -rf node_modules
-      #     rm package-lock.json
-      #     npm install --legacy-peer-deps
-      #     npm run build
+      - name: Clean install dependencies for api
+        working-directory: ./api
+        run: |
+          rm -rf node_modules
+          rm package-lock.json
+          npm install --legacy-peer-deps
+          npm run build
 
-      # - name: Build and push Docker images
-      #   run: |
-      #     docker-compose build
-      #     docker-compose push
+      - name: Build and push Docker images
+        run: |
+          docker-compose build
+          docker-compose push
 
       - name: Deploy to VPS
         uses: appleboy/ssh-action@v0.1.8
@@ -45,10 +45,8 @@ jobs:
           username: ${{ secrets.USERNAME }}
           password: ${{ secrets.PASSWORD }}
           script: |
-            mkdir -p ~/api && cd ~/api
-            git stash    
+            mkdir -p ~/api && cd ~/api    
             git pull origin main
-            git stash pop || true
             sudo docker-compose down -v
             sudo docker image prune -a  
             sudo docker-compose build
