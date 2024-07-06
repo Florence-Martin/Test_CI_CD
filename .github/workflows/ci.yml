@@ -46,9 +46,8 @@ jobs:
           password: ${{ secrets.PASSWORD }}
           script: |
             mkdir -p ~/api && cd ~/api    
-            git pull origin main          
-            CONTAINER_NAME="test_ci_cd-db-$(date +%s)"
-            export CONTAINER_NAME
+            git pull origin main 
             sudo docker-compose down -v
             sudo docker image prune -a  
-            sudo docker-compose up -d --build
+            sudo docker-compose build
+            sudo docker-compose up
