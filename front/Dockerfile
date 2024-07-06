@@ -12,6 +12,9 @@ COPY pages ./pages
 # Installation des dépendances
 RUN npm install --production
 
+# Copier les fichiers source de l'application
+COPY . .
+
 # Construire l'application Next.js
 RUN npm run build
 
