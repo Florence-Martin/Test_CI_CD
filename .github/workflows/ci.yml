@@ -18,19 +18,19 @@ jobs:
       #   with:
       #     node-version: "20"
 
-      - name: Install dependencies and build front
-        working-directory: ./front
-        run: |
-          npm install
-          npm run build
+      # - name: Install dependencies and build front
+      #   working-directory: ./front
+      #   run: |
+      #     npm install
+      #     npm run build
 
-      - name: Clean install dependencies for api
-        working-directory: ./api
-        run: |
-          rm -rf node_modules
-          rm package-lock.json
-          npm install --legacy-peer-deps
-          npm run build
+      # - name: Clean install dependencies for api
+      #   working-directory: ./api
+      #   run: |
+      #     rm -rf node_modules
+      #     rm package-lock.json
+      #     npm install --legacy-peer-deps
+      #     npm run build
 
       # - name: Build and push Docker images
       #   run: |
@@ -52,5 +52,6 @@ jobs:
             git pull origin main          
             CONTAINER_NAME="test_ci_cd-db-$(date +%s)"
             export CONTAINER_NAME
-            sudo docker-compose down 
+            sudo docker-compose down -v
+            sudo docker image prune -a  
             sudo docker-compose up -d --build
