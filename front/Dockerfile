@@ -12,15 +12,11 @@ COPY pages ./pages
 # Installation des dépendances
 RUN npm install --production
 
-# Copier le reste des fichiers de l'application
-COPY . .
-
 # Construire l'application Next.js
 RUN npm run build
-
 
 # Exposer le port de l'application
 EXPOSE 3000
 
 # Commande pour démarrer l'application
-CMD ["npm", "start"]
+CMD ["npm", "run", "start"]
