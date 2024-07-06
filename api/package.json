@@ -5,7 +5,9 @@
   "main": "dist/server.js",
   "scripts": {
     "build": "tsc",
-    "start": "node dist/server.js"
+    "start": "node dist/server.js",
+    "migration:generate": "typeorm migration:generate -d src/data-source.ts -n",
+    "migration:run": "typeorm migration:run -d dist/data-source.js"
   },
   "keywords": [],
   "author": "",

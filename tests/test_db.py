@@ -30,9 +30,9 @@ def test_user_table(db_connection):
     assert len(rows) == 3, "Le nombre de lignes dans la table 'user' n'est pas correct."
 
     expected_data = [
-        (1, 'JOHN', 'DOE', 30),
-        (2, 'JANE', 'DOE', 25),
-        (3, 'ALICE', 'SMITH', 15)
+        (1, 'John', 'Doe', 30),
+        (2, 'Jane', 'Doe', 25),
+        (3, 'Alice', 'Smith', 15)
     ]
 
     for i, row in enumerate(rows):

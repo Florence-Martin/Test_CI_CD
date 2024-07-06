@@ -14,6 +14,9 @@ COPY . .
 # Construire l'application TypeScript
 RUN npm install typescript
 
+# Assurez-vous que `tsc` a les permissions d'exécution correctes
+RUN chmod +x node_modules/.bin/tsc
+
 # Construire l'application TypeScript
 RUN npm run build
 

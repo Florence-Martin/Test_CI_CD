@@ -5,11 +5,11 @@ export class User {
   @PrimaryGeneratedColumn()
   id!: number;
 
-  @Column()
-  firstName!: string;
+  @Column({ name: "firstname" })
+  firstname!: string;
 
-  @Column()
-  lastName!: string;
+  @Column({ name: "lastname" })
+  lastname!: string;
 
   @Column()
   age!: number;
