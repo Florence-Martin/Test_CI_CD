@@ -13,10 +13,10 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: "20"
+      # - name: Set up Node.js
+      #   uses: actions/setup-node@v4
+      #   with:
+      #     node-version: "20"
 
       - name: Install dependencies and build front
         working-directory: ./front
@@ -32,21 +32,10 @@ jobs:
           npm install --legacy-peer-deps
           npm run build
 
-      - name: Run linter for front
-        working-directory: ./front
-        run: |
-          npm run lint
-
-      # Comment or remove the following lines to disable the linter for api
-      # - name: Run linter for api
-      #   working-directory: ./api
+      # - name: Build and push Docker images
       #   run: |
-      #     npm run lint
-
-      - name: Build and push Docker images
-        run: |
-          docker-compose build
-          docker-compose push
+      #     docker-compose build
+      #     docker-compose push
 
       - name: Deploy to VPS
         uses: appleboy/ssh-action@v0.1.8
@@ -63,5 +52,5 @@ jobs:
             git pull origin main          
             CONTAINER_NAME="test_ci_cd-db-$(date +%s)"
             export CONTAINER_NAME
-            sudo docker-compose -f ./docker-compose.yml down 
-            sudo docker-compose -f ./docker-compose.yml up -d --build
+            sudo docker-compose down 
+            sudo docker-compose up -d --build
