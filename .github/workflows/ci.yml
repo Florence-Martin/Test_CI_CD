@@ -56,7 +56,7 @@ jobs:
           username: ${{ secrets.USERNAME }}
           password: ${{ secrets.PASSWORD }}
           script: |
-            mkdir -p ~/api && cd ~/api    
+            mkdir -p ~/myapp && cd ~/myapp    
             if [ ! -d .git ]; then
               git clone https://github.com/Florence-Martin/Test_CI_CD.git .
             fi
