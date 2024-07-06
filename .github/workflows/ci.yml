@@ -45,8 +45,10 @@ jobs:
           username: ${{ secrets.USERNAME }}
           password: ${{ secrets.PASSWORD }}
           script: |
-            mkdir -p ~/api && cd ~/api    
-            git pull origin main 
+            mkdir -p ~/api && cd ~/api
+            git stash    
+            git pull origin main
+            git stash pop || true
             sudo docker-compose down -v
             sudo docker image prune -a  
             sudo docker-compose build
