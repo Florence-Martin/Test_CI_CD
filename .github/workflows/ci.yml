@@ -38,8 +38,14 @@ jobs:
         run: |
           echo "Current directory: $(pwd)"
           ls -la
+          echo "Checking if Docker Compose file exists:"
+          if [ -f "docker-compose.yml" ]; then
+            echo "Docker Compose file found."
+          else
+            echo "Docker Compose file not found."
+            find . -name "docker-compose.yml" -print
+          fi
       - name: Build and push Docker images
-        working-directory: .
         run: |
           docker-compose -f docker-compose.yml build
           docker-compose -f docker-compose.yml push
