@@ -1,38 +1,34 @@
-import globals from "globals";
-import pluginJs from "@eslint/js";
-import pluginReact from "eslint-plugin-react";
-import pluginTypeScript from "@typescript-eslint/eslint-plugin";
-import parserTypeScript from "@typescript-eslint/parser";
+// .eslintrc.js
+const { defaults } = require("eslint-plugin-react");
+const tsEslintRecommended = require("@typescript-eslint/eslint-plugin").configs
+  .recommended;
 
-export default [
-  { files: ["**/*.{js,mjs,cjs,jsx,ts,tsx}"] },
-  {
-    languageOptions: {
-      parser: parserTypeScript,
-      parserOptions: {
-        ecmaFeatures: { jsx: true },
-        project: "./tsconfig.json",
-      },
-      globals: {
-        ...globals.browser,
-        ...globals.node,
-      },
+module.exports = {
+  files: ["**/*.{js,mjs,cjs,jsx,ts,tsx}"],
+  parser: "@typescript-eslint/parser",
+  parserOptions: {
+    ecmaFeatures: { jsx: true },
+    project: "./tsconfig.json",
+    sourceType: "module",
+  },
+  env: {
+    browser: true,
+    node: true,
+    es6: true,
+  },
+  extends: [
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "plugin:@typescript-eslint/recommended",
+  ],
+  plugins: ["react", "@typescript-eslint"],
+  rules: {
+    ...tsEslintRecommended.rules,
+    ...defaults.rules,
+  },
+  settings: {
+    react: {
+      version: "detect",
     },
   },
-  pluginJs.configs.recommended,
-  {
-    plugins: {
-      react: pluginReact,
-      "@typescript-eslint": pluginTypeScript,
-    },
-    rules: {
-      ...pluginTypeScript.configs.recommended.rules,
-      ...pluginReact.configs.recommended.rules,
-    },
-    settings: {
-      react: {
-        version: "detect",
-      },
-    },
-  },
-];
+};

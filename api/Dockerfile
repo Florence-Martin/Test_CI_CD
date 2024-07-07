@@ -11,9 +11,8 @@ RUN npm install
 # Copier les fichiers source de l'application
 COPY . .
 
-# Installer TypeScript globalement et compiler le projet
-RUN npm install -g typescript
-RUN tsc
+# Compiler
+RUN npm run build
 
 # Exposer le port de l'application
 EXPOSE 3001
