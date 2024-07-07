@@ -12,6 +12,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Print working directory
+        run: |
+          pwd
+          ls -la
+
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
@@ -36,8 +41,8 @@ jobs:
     steps:
       - name: Build and push Docker images
         run: |
-          docker-compose build
-          docker-compose push
+          docker-compose -f docker-compose.yml build
+          docker-compose -f docker-compose.yml push
 
   deploy:
     runs-on: ubuntu-latest
