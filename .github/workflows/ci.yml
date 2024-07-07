@@ -34,21 +34,16 @@ jobs:
     runs-on: ubuntu-latest
     needs: setup-and-build
     steps:
-      - name: Debugging info
+      - name: Debugging info before Docker commands
         run: |
           echo "Current directory: $(pwd)"
           ls -la
-          echo "Checking if Docker Compose file exists:"
-          if [ -f "docker-compose.yml" ]; then
-            echo "Docker Compose file found."
-          else
-            echo "Docker Compose file not found."
-            find . -name "docker-compose.yml" -print
-          fi
+          find . -name "docker-compose.yml" -print
+
       - name: Build and push Docker images
         run: |
-          docker-compose -f docker-compose.yml build
-          docker-compose -f docker-compose.yml push
+          docker-compose -f $(pwd)/docker-compose.yml build
+          docker-compose -f $(pwd)/docker-compose.yml push
 
   deploy:
     runs-on: ubuntu-latest
