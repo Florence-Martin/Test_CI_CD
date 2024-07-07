@@ -34,16 +34,10 @@ jobs:
     runs-on: ubuntu-latest
     needs: setup-and-build
     steps:
-      - name: Debugging info before Docker commands
-        run: |
-          echo "Current directory: $(pwd)"
-          ls -la
-          find . -name "docker-compose.yml" -print
-
       - name: Build and push Docker images
         run: |
-          docker-compose -f $(pwd)/docker-compose.yml build
-          docker-compose -f $(pwd)/docker-compose.yml push
+          docker-compose build
+          docker-compose push
 
   deploy:
     runs-on: ubuntu-latest
