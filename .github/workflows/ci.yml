@@ -34,6 +34,13 @@ jobs:
     runs-on: ubuntu-latest
     needs: setup-and-build
     steps:
+      - name: Install Docker Compose
+        run: |
+          COMPOSE_VERSION="v2.27.0"
+          sudo curl -L "https://github.com/docker/compose/releases/download/${COMPOSE_VERSION}/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+          sudo chmod +x /usr/local/bin/docker-compose
+          docker-compose --version
+
       - name: Build and push Docker images
         run: |
           docker-compose build
