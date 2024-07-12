@@ -70,7 +70,9 @@ jobs:
               sudo git pull origin main || exit 11
             fi
 
-            echo "password1234 : ${{ secrets.POSTGRES_PASSWORD }}" > .env
+            echo "POSTGRES_USER=${{ secrets.POSTGRES_USER }}
+            POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }}
+            POSTGRES_DB=${{ secrets.POSTGRES_DB }}" > .env
 
             sudo docker-compose down -v || exit 20
             sudo docker-compose up -d || exit 30
