@@ -60,7 +60,15 @@ jobs:
           password: ${{ secrets.PASSWORD }}
           script: |
             DEPLOY_DIR=~/api
-            mkdir -p "$DEPLOY_DIR" && cd "$DEPLOY_DIR"
-            git pull origin main || exit 10
+
+            if [ ! -d $DEPLOY_DIR ]; then
+              mkdir -p $DEPLOY_DIR
+              git clone https://github.com/Florence-Martin/Test_CI_CD.git $DEPLOY_DIR || exit 10
+              cd "$DEPLOY_DIR"
+            else
+              cd $DEPLOY_DIR
+              sudo git pull origin main || exit 11
+            fi
+
             sudo docker-compose down -v || exit 20
             sudo docker-compose up -d || exit 30
