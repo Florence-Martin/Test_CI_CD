@@ -44,8 +44,8 @@ jobs:
 
       - name: Build and push Docker images
         run: |
+          docker-compose down
           docker-compose build
-          docker-compose push
 
   deploy:
     runs-on: ubuntu-latest
