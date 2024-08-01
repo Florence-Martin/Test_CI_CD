@@ -10,20 +10,24 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # Étape pour récupérer le code du dépôt
       - name: Checkout code
         uses: actions/checkout@v4
 
+      # Étape pour configurer Node.js dans la version spécifiée
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
           node-version: "20"
 
+      # Étape pour installer les dépendances et construire le frontend
       - name: Install and build front-end
         working-directory: ./front
         run: |
           npm install
           npm run build
 
+      # Étape pour nettoyer et construire l'API
       - name: Clean and build API
         working-directory: ./api
         run: |
@@ -36,9 +40,21 @@ jobs:
     needs: setup-and-build
 
     steps:
+      # Étape pour récupérer de nouveau le code, si nécessaire pour le job Docker
       - name: Checkout code
         uses: actions/checkout@v4
 
+      # Étape pour configurer Docker Buildx
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      # Étape pour installer Docker Compose
+      - name: Install Docker Compose
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y docker-compose-plugin
+
+      # Étape pour arrêter les conteneurs existants et construire les images Docker
       - name: Build and push Docker images
         run: |
           docker-compose down
@@ -49,6 +65,7 @@ jobs:
     needs: docker
 
     steps:
+      # Étape pour déployer l'application sur un VPS via SSH
       - name: Deploy to VPS
         uses: appleboy/ssh-action@v0.1.8
         with:
