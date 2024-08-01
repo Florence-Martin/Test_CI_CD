@@ -28,7 +28,7 @@ jobs:
         working-directory: ./api
         run: |
           rm -rf node_modules package-lock.json
-          npm ci --legacy-peer-deps || echo "Warnings during npm install"
+          npm install --legacy-peer-deps || echo "Warnings during npm install"
           npm run build
 
   docker:
