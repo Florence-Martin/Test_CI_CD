@@ -1,13 +1,20 @@
 import "dotenv/config";
 import "reflect-metadata";
 import express from "express";
+const bodyParser = require("body-parser");
 import { AppDataSource } from "./ormconfig"; // Assurez-vous que le chemin est correct
 import { User } from "./entity/User"; // Vérifiez le chemin après compilation
 import cors from "cors";
 
 const app = express();
-app.use(cors());
 const port = 3001;
+// Middleware CORS
+app.use(cors());
+
+// Middleware qui analyse les requêtes contenant des JSON.
+app.use(bodyParser.json());
+// Middleware qui analyse les requêtes contenant des données encodées en URL
+app.use(bodyParser.urlencoded({ extended: true }));
 
 AppDataSource.initialize()
   .then(async () => {
